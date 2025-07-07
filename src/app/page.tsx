@@ -1,103 +1,88 @@
-import Image from "next/image";
+'use client';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [quote, setQuote] = useState('');
+  const [quotes, setQuotes] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  async function fetchQuotes() {
+    const res = await fetch('/api/quotes');
+    const data = await res.json();
+    setQuotes(data.reverse());
+  }
+
+  useEffect(() => {
+    fetchQuotes();
+  }, []);
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+    if (!quote.trim()) return;
+    await fetch('/api/quotes', {
+      method: 'POST',
+      body: JSON.stringify({ text: quote }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    setQuote('');
+    fetchQuotes();
+  }
+
+  return (
+    <main className="min-h-screen relative bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white flex flex-col items-center justify-start py-12 px-4 overflow-x-hidden">
+
+      {/* Glowing Background Blurs */}
+      <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-pink-500 rounded-full filter blur-3xl opacity-30 z-0 animate-pulse" />
+      <div className="absolute bottom-[-80px] right-[-80px] w-[250px] h-[250px] bg-blue-500 rounded-full filter blur-2xl opacity-25 z-0 animate-pulse" />
+
+      {/* Title */}
+      <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-6 tracking-tight z-10 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-500 bg-clip-text text-transparent">
+        Inspiro Quotes
+      </h1>
+
+      <p className="text-md text-center mb-10 text-gray-300 max-w-xl z-10">
+        Add, view and reflect on inspirational thoughts shared by you.
+      </p>
+
+      {/* Main Glass Container */}
+      <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-xl p-8 max-w-4xl w-full mx-auto border border-white/10 z-10">
+
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col sm:flex-row items-center gap-4 mb-8"
+        >
+          <input
+            value={quote}
+            onChange={(e) => setQuote(e.target.value)}
+            placeholder="Write a quote worth sharing..."
+            className="flex-1 p-3 rounded-md text-white placeholder-gray-400 bg-white/10 shadow-md outline-none border border-pink-400/40 focus:ring-2 focus:ring-pink-400"
+          />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-purple-600 hover:to-pink-500 text-white px-6 py-3 rounded-md font-semibold shadow-lg transition duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            ➕ Add
+          </button>
+        </form>
+
+        {/* Quotes List */}
+        <section className="grid gap-6">
+          {quotes.length === 0 ? (
+            <p className="text-center text-gray-400">No quotes yet. Add one above!</p>
+          ) : (
+            quotes.map((q: any, i: number) => (
+              <div
+                key={i}
+                className="bg-white/10 backdrop-blur-lg p-5 rounded-lg shadow-lg border border-white/20 transform hover:scale-[1.01] hover:shadow-pink-500/30 hover:shadow-lg transition-all duration-300 group"
+              >
+                <p className="text-lg leading-relaxed text-gray-100 group-hover:text-white transition">
+                  “{q.text}”
+                </p>
+              </div>
+            ))
+          )}
+        </section>
+      </div>
+    </main>
   );
 }
