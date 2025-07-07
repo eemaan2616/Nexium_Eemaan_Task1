@@ -15,7 +15,7 @@ export default function Home() {
     fetchQuotes();
   }, []);
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!quote.trim()) return;
     await fetch('/api/quotes', {
@@ -70,7 +70,7 @@ export default function Home() {
           {quotes.length === 0 ? (
             <p className="text-center text-gray-400">No quotes yet. Add one above!</p>
           ) : (
-            quotes.map((q: any, i: number) => (
+            quotes.map((q: {text: string}, i: number) => (
               <div
                 key={i}
                 className="bg-white/10 backdrop-blur-lg p-5 rounded-lg shadow-lg border border-white/20 transform hover:scale-[1.01] hover:shadow-pink-500/30 hover:shadow-lg transition-all duration-300 group"
