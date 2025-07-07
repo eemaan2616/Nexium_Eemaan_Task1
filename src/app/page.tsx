@@ -40,13 +40,13 @@ export default function Home() {
       <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-pink-500 rounded-full blur-3xl opacity-30 animate-pulse z-0" />
       <div className="absolute bottom-[-80px] right-[-80px] w-[250px] h-[250px] bg-blue-500 rounded-full blur-2xl opacity-25 animate-pulse z-0" />
 
-      {/* Heading */}
+      {/* Title */}
       <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-500 bg-clip-text text-transparent z-10">
         Inspiro Quotes
       </h1>
 
-      {/* View Toggle Buttons */}
-      <div className="flex gap-4 mb-6 z-10">
+      {/* Toggle Buttons */}
+      <div className="flex flex-wrap gap-4 mb-6 z-10 justify-center">
         <button
           onClick={() => setShowUserQuotes(true)}
           className={`px-4 py-2 rounded-md font-semibold transition ${
@@ -65,11 +65,11 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Main Content Container */}
+      {/* Main Content Card */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-xl p-6 sm:p-8 max-w-4xl w-full mx-auto border border-white/10 z-10">
         {showUserQuotes ? (
           <>
-            {/* Add Quote Form */}
+            {/* Quote Form */}
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -98,10 +98,10 @@ export default function Home() {
               </button>
             </form>
 
-            {/* Render User Quotes with Dialog */}
-            <section className="grid gap-4">
+            {/* User Quotes */}
+            <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {quotes.length === 0 ? (
-                <p className="text-center text-gray-400">No quotes yet. Add one above!</p>
+                <p className="text-center text-gray-400 col-span-full">No quotes yet. Add one above!</p>
               ) : (
                 quotes.map((q) => (
                   <Dialog key={q._id}>
@@ -110,10 +110,10 @@ export default function Home() {
                         onClick={() => setActiveQuote(q.text)}
                         className="cursor-pointer bg-white/10 p-4 rounded-md border border-white/20 hover:shadow-lg transition-all relative"
                       >
-                        <p className="text-gray-100 truncate">“{q.text.slice(0, 100)}...”</p>
+                        <p className="text-gray-100 truncate text-base sm:text-lg">“{q.text.slice(0, 100)}...”</p>
                       </div>
                     </DialogTrigger>
-                    <DialogContent className="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+                    <DialogContent className="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white max-w-sm sm:max-w-md md:max-w-xl">
                       <DialogHeader>
                         <DialogTitle>Quote</DialogTitle>
                       </DialogHeader>
@@ -152,19 +152,19 @@ export default function Home() {
               </select>
             </div>
 
-            {/* Render Topic Quotes (no unused variable) */}
-            <section className="grid gap-4">
-              {topics[selectedTopic]?.map((quote) => (
-                <Dialog key={quote}>
+            {/* Topic Quotes */}
+            <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {topics[selectedTopic]?.map((quote, i) => (
+                <Dialog key={i}>
                   <DialogTrigger asChild>
                     <div
                       onClick={() => setActiveQuote(quote)}
                       className="cursor-pointer bg-white/10 p-4 rounded-md border border-white/20 hover:shadow-lg transition-all"
                     >
-                      <p className="text-gray-100 truncate">“{quote.slice(0, 100)}...”</p>
+                      <p className="text-gray-100 truncate text-base sm:text-lg">“{quote.slice(0, 100)}...”</p>
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
+                  <DialogContent className="bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white max-w-sm sm:max-w-md md:max-w-xl">
                     <DialogHeader>
                       <DialogTitle>Quote</DialogTitle>
                     </DialogHeader>
