@@ -40,10 +40,12 @@ export default function Home() {
       <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-pink-500 rounded-full blur-3xl opacity-30 animate-pulse z-0" />
       <div className="absolute bottom-[-80px] right-[-80px] w-[250px] h-[250px] bg-blue-500 rounded-full blur-2xl opacity-25 animate-pulse z-0" />
 
+      {/* Heading */}
       <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-500 bg-clip-text text-transparent z-10">
         Inspiro Quotes
       </h1>
 
+      {/* View Toggle Buttons */}
       <div className="flex gap-4 mb-6 z-10">
         <button
           onClick={() => setShowUserQuotes(true)}
@@ -63,9 +65,11 @@ export default function Home() {
         </button>
       </div>
 
+      {/* Main Content Container */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-xl p-6 sm:p-8 max-w-4xl w-full mx-auto border border-white/10 z-10">
         {showUserQuotes ? (
           <>
+            {/* Add Quote Form */}
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -94,11 +98,12 @@ export default function Home() {
               </button>
             </form>
 
+            {/* Render User Quotes with Dialog */}
             <section className="grid gap-4">
               {quotes.length === 0 ? (
                 <p className="text-center text-gray-400">No quotes yet. Add one above!</p>
               ) : (
-                quotes.map((q, _i) => (
+                quotes.map((q) => (
                   <Dialog key={q._id}>
                     <DialogTrigger asChild>
                       <div
@@ -127,6 +132,7 @@ export default function Home() {
           </>
         ) : (
           <>
+            {/* Topic Selector */}
             <div className="mb-6">
               <label className="block mb-2 text-sm font-semibold text-gray-300">
                 Select a Topic:
@@ -146,9 +152,10 @@ export default function Home() {
               </select>
             </div>
 
+            {/* Render Topic Quotes (no unused variable) */}
             <section className="grid gap-4">
-              {topics[selectedTopic]?.map((quote, _i) => (
-                <Dialog key={i}>
+              {topics[selectedTopic]?.map((quote) => (
+                <Dialog key={quote}>
                   <DialogTrigger asChild>
                     <div
                       onClick={() => setActiveQuote(quote)}
