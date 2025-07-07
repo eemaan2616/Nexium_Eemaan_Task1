@@ -98,7 +98,7 @@ export default function Home() {
               {quotes.length === 0 ? (
                 <p className="text-center text-gray-400">No quotes yet. Add one above!</p>
               ) : (
-                quotes.map((q, i) => (
+                quotes.map((q, _i) => (
                   <Dialog key={q._id}>
                     <DialogTrigger asChild>
                       <div
@@ -147,7 +147,7 @@ export default function Home() {
             </div>
 
             <section className="grid gap-4">
-              {topics[selectedTopic]?.map((quote, i) => (
+              {topics[selectedTopic]?.map((quote, _i) => (
                 <Dialog key={i}>
                   <DialogTrigger asChild>
                     <div
